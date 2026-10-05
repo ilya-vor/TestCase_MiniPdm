@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: minipdm-postgres
+    environment:
+      POSTGRES_DB: minipdm
+      POSTGRES_USER: minipdm
+      POSTGRES_PASSWORD: minipdm
+    ports:
+      - "5432:5432"
+    volumes:
+      - minipdm-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U minipdm -d minipdm"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  minipdm-pgdata:

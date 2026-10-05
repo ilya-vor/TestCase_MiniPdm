@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MiniPdm.Application/MiniPdm.Application.csproj" />
+    <Project Path="src/MiniPdm.Cad/MiniPdm.Cad.csproj" />
+    <Project Path="src/MiniPdm.Domain/MiniPdm.Domain.csproj" />
+    <Project Path="src/MiniPdm.Infrastructure/MiniPdm.Infrastructure.csproj" />
+    <Project Path="src/MiniPdm.Ui/MiniPdm.Ui.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MiniPdm.Tests/MiniPdm.Tests.csproj" />
+  </Folder>
+</Solution>
