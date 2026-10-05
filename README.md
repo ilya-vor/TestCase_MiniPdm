@@ -65,7 +65,7 @@ Host=localhost;Port=5432;Database=minipdm;Username=minipdm;Password=minipdm
 | Слой | Выбор | Почему |
 |------|-------|--------|
 | Платформа | .NET 8 | Требование задания; LTS. |
-| UI | **WPF** + MVVM | «Наш стек» (плюс по условию); зрелая привязка данных, `ICollectionView`, DataGrid/TreeView из коробки. |
+| UI | **WPF** + MVVM + **WPF-UI 4.3** (Fluent/WinUI 11) | «Наш стек» (плюс по условию); единый стиль WinUI-приложения: `FluentWindow`, `TitleBar`, тема Fluent. |
 | СУБД | **PostgreSQL 16** | «Наш стек»; полноценные рекурсивные CTE, строгая схема, партиционирование/индексы при росте. |
 | Доступ к данным | **Dapper** | Прозрачный SQL, рекурсивный CTE пишется явно, без «магии» ORM и лишних зависимостей. |
 | DI | **Jab 0.12** (compile-time) | Контейнер генерируется на этапе компиляции: нет reflection-сканирования и runtime-ошибок регистрации. |
@@ -233,7 +233,9 @@ import_log          — журнал импорта: started_at, file_name, seve
 
 ## Интерфейс
 
-WPF, MVVM, без логики в code-behind:
+WPF, MVVM, без логики в code-behind. Оформление — **WPF-UI 4.3** в стиле Windows 11
+(Fluent/WinUI): `ui:FluentWindow` с `ui:TitleBar`, светлая Fluent-тема, контролы
+`ui:Button`/`ui:TextBox`/`ui:SymbolIcon`/`ui:Card`/`ui:DataGrid`/`ui:ProgressRing`.
 
 - **Поиск** по обозначению/наименованию — список результатов.
 - **Карточка объекта**: обозначение, тип, текущая версия, состояние, материал, масса; список
