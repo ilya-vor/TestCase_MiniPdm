@@ -184,10 +184,14 @@ public sealed class MainViewModel : ObservableObject
             if (rebuildTree)
             {
                 TreeRoots.Clear();
-                TreeRoots.Add(new PdmTreeNodeViewModel(
+                var root = new PdmTreeNodeViewModel(
                     _service,
                     summary,
-                    node => _ = SelectObjectAsync(node, rebuildTree: false)));
+                    node => _ = SelectObjectAsync(node, rebuildTree: false));
+                TreeRoots.Add(root);
+                // Разворачиваем корень сразу — состав изделия виден без лишнего клика
+                // (дети подгружаются лениво по факту раскрытия).
+                root.IsExpanded = true;
             }
 
             MassText = string.Empty;
