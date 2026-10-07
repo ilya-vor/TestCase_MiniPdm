@@ -133,10 +133,10 @@
                                   ScrollViewer.HorizontalScrollBarVisibility="Auto">
                             <TreeView.Resources>
                                 <!-- Полосы прокрутки со своим местом (не overlay), чтобы горизонтальный бар не накрывал узлы. -->
-                                <Style TargetType="ScrollViewer" BasedOn="{StaticResource UiScrollViewer}">
+                                <Style TargetType="{x:Type ui:PassiveScrollViewer}" BasedOn="{StaticResource UiScrollViewer}">
                                     <Setter Property="Template">
                                         <Setter.Value>
-                                            <ControlTemplate TargetType="ScrollViewer">
+                                            <ControlTemplate TargetType="{x:Type ui:PassiveScrollViewer}">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*" />
