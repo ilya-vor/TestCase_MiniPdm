@@ -85,7 +85,8 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="2,3">
-                                        <TextBlock Text="{Binding Designation}" FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding Designation}" FontWeight="SemiBold"
+                                                   Visibility="{Binding Designation, Converter={StaticResource NullToVis}, ConverterParameter=Invert}" />
                                         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
                                                    Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" />
                                         <TextBlock FontSize="11" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}">
