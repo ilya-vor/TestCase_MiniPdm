@@ -81,7 +81,9 @@
                         <ListBox ItemsSource="{Binding SearchResults}"
                                  SelectedItem="{Binding SelectedSearchResult, Mode=TwoWay}"
                                  Background="Transparent" BorderThickness="0"
-                                 HorizontalContentAlignment="Stretch">
+                                 HorizontalContentAlignment="Stretch"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListBox.Resources>
                                 <!-- Вторичный текст: серый в обычном состоянии, цвет выделения — при выборе. -->
                                 <Style x:Key="SearchItemSecondaryText" TargetType="TextBlock">
@@ -94,10 +96,19 @@
                                     </Style.Triggers>
                                 </Style>
                             </ListBox.Resources>
+                            <ListBox.ItemContainerStyle>
+                                <!-- Компактные элементы; справа оставляем место под overlay-скроллбар WPF-UI. -->
+                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource DefaultListBoxItemStyle}">
+                                    <Setter Property="Padding" Value="8,2" />
+                                    <Setter Property="Margin" Value="0,0,12,0" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                </Style>
+                            </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Margin="2,3">
+                                    <StackPanel Margin="0,1">
                                         <TextBlock Text="{Binding Designation}" FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis"
                                                    Visibility="{Binding Designation, Converter={StaticResource NullToVis}}" />
                                         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
                                                    Style="{DynamicResource SearchItemSecondaryText}" />
@@ -117,16 +128,19 @@
                         <ui:TextBlock DockPanel.Dock="Top" Text="Состав изделия"
                                       FontTypography="BodyStrong" Margin="2,0,0,6" />
                         <TreeView ItemsSource="{Binding TreeRoots}"
-                                  Background="Transparent" BorderThickness="0">
+                                  Background="Transparent" BorderThickness="0"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <TreeView.ItemContainerStyle>
                                 <Style TargetType="TreeViewItem">
                                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                    <Setter Property="Padding" Value="4,1" />
                                 </Style>
                             </TreeView.ItemContainerStyle>
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                                    <TextBlock Text="{Binding Header}" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding Header}" TextTrimming="CharacterEllipsis" Margin="0,0,12,0" />
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>
                         </TreeView>
