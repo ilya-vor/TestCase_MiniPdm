@@ -82,14 +82,26 @@
                                  SelectedItem="{Binding SelectedSearchResult, Mode=TwoWay}"
                                  Background="Transparent" BorderThickness="0"
                                  HorizontalContentAlignment="Stretch">
+                            <ListBox.Resources>
+                                <!-- Вторичный текст: серый в обычном состоянии, цвет выделения — при выборе. -->
+                                <Style x:Key="SearchItemSecondaryText" TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{ui:ThemeResource TextFillColorSecondaryBrush}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                                     Value="True">
+                                            <Setter Property="Foreground" Value="{DynamicResource ListBoxItemSelectedForegroundThemeBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListBox.Resources>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="2,3">
                                         <TextBlock Text="{Binding Designation}" FontWeight="SemiBold"
-                                                   Visibility="{Binding Designation, Converter={StaticResource NullToVis}, ConverterParameter=Invert}" />
+                                                   Visibility="{Binding Designation, Converter={StaticResource NullToVis}}" />
                                         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
-                                                   Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" />
-                                        <TextBlock FontSize="11" Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}">
+                                                   Style="{DynamicResource SearchItemSecondaryText}" />
+                                        <TextBlock FontSize="11" Style="{DynamicResource SearchItemSecondaryText}">
                                             <Run Text="Состояние: " />
                                             <Run Text="{Binding CurrentState, Converter={StaticResource StateText}}" />
                                         </TextBlock>
