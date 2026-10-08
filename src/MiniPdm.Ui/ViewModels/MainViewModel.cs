@@ -198,10 +198,20 @@ public sealed class MainViewModel : ObservableObject
             }
 
             MassText = string.Empty;
-            SpecificationRows.Clear();
-            StatusText = summary.Designation is null
+
+            var selectionText = summary.Designation is null
                 ? summary.Name
                 : $"{summary.Designation} — {summary.Name}";
+
+            try
+            {
+                // Авто-построение сводной спецификации сразу при выборе объекта (п.4.6 ТЗ).
+                StatusText = $"{selectionText}. {await FillSpecificationAsync().ConfigureAwait(true)}";
+            }
+            catch (Exception ex)
+            {
+                StatusText = $"{selectionText}. Ошибка построения спецификации: {ex.Message}";
+            }
         }
         catch (Exception ex)
         {
@@ -262,22 +272,35 @@ public sealed class MainViewModel : ObservableObject
 
         try
         {
-            var result = await _service.BuildSpecificationAsync(Details.Object.Id, CancellationToken.None).ConfigureAwait(true);
-            SpecificationRows.Clear();
-            foreach (var row in result.Rows)
-            {
-                SpecificationRows.Add(row);
-            }
-
-            StatusText = result.HasCycle
-                ? "В составе обнаружен цикл — спецификация недоступна."
-                : $"Строк спецификации: {result.Rows.Count}.";
-            RefreshCommands();
+            StatusText = await FillSpecificationAsync().ConfigureAwait(true);
         }
         catch (Exception ex)
         {
             StatusText = "Ошибка построения спецификации: " + ex.Message;
         }
+    }
+
+    /// <summary>
+    /// Строит сводную спецификацию для выбранного объекта, заполняет коллекцию и возвращает
+    /// текст статуса. Используется и командой, и авто-построением при выборе объекта.
+    /// </summary>
+    private async Task<string> FillSpecificationAsync()
+    {
+        var result = await _service
+            .BuildSpecificationAsync(Details!.Object.Id, CancellationToken.None)
+            .ConfigureAwait(true);
+
+        SpecificationRows.Clear();
+        foreach (var row in result.Rows)
+        {
+            SpecificationRows.Add(row);
+        }
+
+        RefreshCommands();
+
+        return result.HasCycle
+            ? "В составе обнаружен цикл — спецификация недоступна."
+            : $"Строк спецификации: {result.Rows.Count}.";
     }
 
     private async Task ExportSpecificationAsync()
