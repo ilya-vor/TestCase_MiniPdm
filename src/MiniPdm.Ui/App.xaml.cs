@@ -1,5 +1,6 @@
 using System.Windows;
 using MiniPdm.Application.Persistence;
+using MiniPdm.Ui.ViewModels;
 
 namespace MiniPdm.Ui;
 
@@ -34,5 +35,9 @@ public partial class App : System.Windows.Application
         var window = _container.GetService<MainWindow>();
         MainWindow = window;
         window.Show();
+
+        // Первичная загрузка: поиск с пустым запросом показывает все объекты,
+        // чтобы окно не открывалось пустым (см. README, «Интерфейс»).
+        await _container.GetService<MainViewModel>().InitializeAsync().ConfigureAwait(true);
     }
 }

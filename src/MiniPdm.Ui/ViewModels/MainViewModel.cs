@@ -150,6 +150,9 @@ public sealed class MainViewModel : ObservableObject
         private set => SetProperty(ref _importProgressText, value);
     }
 
+    /// <summary>Первичная загрузка: поиск с пустым запросом, чтобы список объектов был виден сразу после запуска.</summary>
+    public Task InitializeAsync() => SearchAsync();
+
     private async Task SearchAsync()
     {
         try
