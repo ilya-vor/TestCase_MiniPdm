@@ -281,14 +281,14 @@
                                 <ui:TextBlock Text="Версии" FontTypography="BodyStrong" Margin="0,18,0,6" />
                                 <ui:DataGrid ItemsSource="{Binding Versions}" AutoGenerateColumns="False"
                                              IsReadOnly="True" CanUserAddRows="False" HeadersVisibility="Column"
-                                             MaxHeight="240">
+                                             MaxHeight="240" HorizontalAlignment="Stretch">
                                     <ui:DataGrid.Columns>
-                                        <DataGridTextColumn Header="Версия" Binding="{Binding VersionNo}" Width="70" />
-                                        <DataGridTextColumn Header="Состояние" Width="140"
+                                        <DataGridTextColumn Header="Версия" Binding="{Binding VersionNo}" MinWidth="150"/>
+                                        <DataGridTextColumn Header="Состояние" MinWidth="150"
                                                             Binding="{Binding State, Converter={StaticResource StateText}}" />
-                                        <DataGridTextColumn Header="Материал" Binding="{Binding Material}" Width="*" />
-                                        <DataGridTextColumn Header="Масса, кг" Binding="{Binding MassKg}" Width="100" />
-                                        <DataGridTextColumn Header="Создана" Width="150"
+                                        <DataGridTextColumn Header="Материал" Binding="{Binding Material}" MinWidth="150"/>
+                                        <DataGridTextColumn Header="Масса, кг" Binding="{Binding MassKg}" MinWidth="150"/>
+                                        <DataGridTextColumn Header="Создана" MinWidth="150" Width="*"
                                                             Binding="{Binding CreatedAt, StringFormat=dd.MM.yyyy HH:mm}" />
                                     </ui:DataGrid.Columns>
                                 </ui:DataGrid>
@@ -311,13 +311,13 @@
                         <ui:DataGrid ItemsSource="{Binding SpecificationRows}" AutoGenerateColumns="False"
                                      IsReadOnly="True" CanUserAddRows="False" HeadersVisibility="Column">
                             <ui:DataGrid.Columns>
-                                <DataGridTextColumn Header="Обозначение" Binding="{Binding Designation}" Width="180" />
-                                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
-                                <DataGridTextColumn Header="Тип" Width="160"
+                                <DataGridTextColumn Header="Обозначение" Binding="{Binding Designation}" MinWidth="140"  />
+                                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" MinWidth="200" Width="*"/>
+                                <DataGridTextColumn Header="Тип" MinWidth="170"
                                                     Binding="{Binding Type, Converter={StaticResource TypeText}}" />
-                                <DataGridTextColumn Header="Кол-во" Binding="{Binding TotalQuantity}" Width="70" />
-                                <DataGridTextColumn Header="Масса за шт., кг" Binding="{Binding UnitMassKg}" Width="140" />
-                                <DataGridTextColumn Header="Масса всего, кг" Binding="{Binding TotalMassKg}" Width="140" />
+                                <DataGridTextColumn Header="Кол-во" Binding="{Binding TotalQuantity}" MinWidth="80" />
+                                <DataGridTextColumn Header="Масса&#10;за шт., кг" Binding="{Binding UnitMassKg}" MinWidth="90"/>
+                                <DataGridTextColumn Header="Масса&#10;всего, кг" Binding="{Binding TotalMassKg}" MinWidth="90"/>
                             </ui:DataGrid.Columns>
                         </ui:DataGrid>
                     </DockPanel>
