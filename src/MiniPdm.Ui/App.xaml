@@ -15,6 +15,7 @@
             <conv:ImportOutcomeToTextConverter x:Key="OutcomeText" />
             <conv:BoolToVisibilityConverter x:Key="BoolToVis" />
             <conv:NullToVisibilityConverter x:Key="NullToVis" />
+            <conv:HalfValueConverter x:Key="Half" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

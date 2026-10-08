@@ -69,6 +69,16 @@ public sealed class BoolToVisibilityConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
+/// <summary>Делит значение на два (например, половина высоты контейнера).</summary>
+public sealed class HalfValueConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => value is double d ? d / 2d : DependencyProperty.UnsetValue;
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
+
 /// <summary>Не null → Visible.</summary>
 public sealed class NullToVisibilityConverter : IValueConverter
 {

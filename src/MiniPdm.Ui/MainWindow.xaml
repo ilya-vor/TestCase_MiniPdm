@@ -68,11 +68,11 @@
                 <ColumnDefinition Width="*" MinWidth="440" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
+            <Grid x:Name="LeftPanel" Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <!-- Результаты поиска и состав делят левую панель пополам: дерево не растёт выше половины грида. -->
+                    <!-- Поиск занимает всё свободное место, состав сжимается по содержимому (MaxHeight = половина панели). -->
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <ui:Card Grid.Row="0" Margin="12,0,0,6" Padding="10" VerticalAlignment="Top">
@@ -124,7 +124,8 @@
                     </DockPanel>
                 </ui:Card>
 
-                <ui:Card Grid.Row="1" Margin="12,6,0,12" Padding="10">
+                <ui:Card Grid.Row="1" Margin="12,6,0,12" Padding="10"
+                         MaxHeight="{Binding ActualHeight, ElementName=LeftPanel, Converter={StaticResource Half}}">
                     <DockPanel>
                         <ui:TextBlock DockPanel.Dock="Top" Text="Состав изделия"
                                       FontTypography="BodyStrong" Margin="2,0,0,6" />
