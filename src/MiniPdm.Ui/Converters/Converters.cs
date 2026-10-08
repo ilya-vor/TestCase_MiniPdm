@@ -14,6 +14,8 @@ public sealed class ObjectStateToTextConverter : IValueConverter
         ObjectState.InWork => "В работе",
         ObjectState.Approved => "Утверждено",
         ObjectState.Cancelled => "Аннулировано",
+        // Текущей версии нет — значит все версии объекта аннулированы.
+        null => "Аннулировано",
         _ => string.Empty,
     };
 
