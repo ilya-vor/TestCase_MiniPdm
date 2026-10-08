@@ -261,25 +261,25 @@
                                                    Text="{Binding Details.Object.Type, Converter={StaticResource TypeText}}" />
 
                                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Текущая версия:" FontWeight="SemiBold" Margin="0,3,12,3"
-                                                   Visibility="{Binding Details.CurrentVersion.VersionNo, Converter={StaticResource NullToVis}}" />
+                                                   Visibility="{Binding Details.CurrentVersion.VersionNo, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}" />
                                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Details.CurrentVersion.VersionNo}" Margin="0,3"
-                                                   Visibility="{Binding Details.CurrentVersion.VersionNo, Converter={StaticResource NullToVis}}" />
+                                                   Visibility="{Binding Details.CurrentVersion.VersionNo, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}" />
 
                                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Состояние:" FontWeight="SemiBold" Margin="0,3,12,3"
-                                                   Visibility="{Binding Details.CurrentVersion.State, Converter={StaticResource NullToVis}}" />
+                                                   Visibility="{Binding Details.CurrentVersion.State, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}" />
                                         <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,3"
-                                                   Visibility="{Binding Details.CurrentVersion.State, Converter={StaticResource NullToVis}}"
+                                                   Visibility="{Binding Details.CurrentVersion.State, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}"
                                                    Text="{Binding Details.CurrentVersion.State, Converter={StaticResource StateText}}" />
 
                                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Материал:" FontWeight="SemiBold" Margin="0,3,12,3"
-                                                   Visibility="{Binding Details.CurrentVersion.Material, Converter={StaticResource NullToVis}}" />
+                                                   Visibility="{Binding Details.CurrentVersion.Material, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}" />
                                         <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Details.CurrentVersion.Material}" Margin="0,3"
-                                                   Visibility="{Binding Details.CurrentVersion.Material, Converter={StaticResource NullToVis}}" />
+                                                   Visibility="{Binding Details.CurrentVersion.Material, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}" />
 
                                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Масса&#10;за единицу, кг:" FontWeight="SemiBold" Margin="0,3,12,3"
-                                                   Visibility="{Binding Details.CurrentVersion.MassKg, Converter={StaticResource NullToVis}}" />
+                                                   Visibility="{Binding Details.CurrentVersion.MassKg, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}" />
                                         <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Details.CurrentVersion.MassKg}" Margin="0,22,0,3"
-                                                   Visibility="{Binding Details.CurrentVersion.MassKg, Converter={StaticResource NullToVis}}" />
+                                                   Visibility="{Binding Details.CurrentVersion.MassKg, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}" />
                                     </Grid>
                                 </Border>
 
