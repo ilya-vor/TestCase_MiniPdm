@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:domain="clr-namespace:MiniPdm.Domain;assembly=MiniPdm.Domain"
         mc:Ignorable="d"
         Title="Мини-PDM: Состав изделия"
         Height="780" Width="1280"
@@ -126,24 +127,47 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Margin="0,1">
-                                        <!-- Заголовок: обозначение, а если его нет — наименование. -->
-                                        <TextBlock FontWeight="SemiBold" TextTrimming="CharacterEllipsis">
-                                            <TextBlock.Text>
-                                                <MultiBinding Converter="{StaticResource FirstNotNull}">
-                                                    <Binding Path="Designation" />
-                                                    <Binding Path="Name" />
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                        <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
-                                                   Visibility="{Binding Designation, Converter={StaticResource NullToVis}}"
-                                                   Style="{DynamicResource SearchItemSecondaryText}" />
-                                        <TextBlock FontSize="11" Style="{DynamicResource SearchItemSecondaryText}">
-                                            <Run Text="Состояние: " />
-                                            <Run Text="{Binding CurrentState, Converter={StaticResource StateText}}" />
-                                        </TextBlock>
-                                    </StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <!-- Минималистичная полоска состояния слева: зелёный — утверждено,
+                                             жёлтый — в работе, красный — аннулировано. -->
+                                        <Border Grid.Column="0" Width="3" CornerRadius="2" Margin="0,1,8,1">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding CurrentState}" Value="{x:Static domain:ObjectState.Approved}">
+                                                            <Setter Property="Background" Value="{DynamicResource SystemFillColorSuccessBrush}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding CurrentState}" Value="{x:Static domain:ObjectState.InWork}">
+                                                            <Setter Property="Background" Value="{DynamicResource SystemFillColorCautionBrush}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                        <StackPanel Grid.Column="1" Margin="0,1">
+                                            <!-- Заголовок: обозначение, а если его нет — наименование. -->
+                                            <TextBlock FontWeight="SemiBold" TextTrimming="CharacterEllipsis">
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource FirstNotNull}">
+                                                        <Binding Path="Designation" />
+                                                        <Binding Path="Name" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+                                                       Visibility="{Binding Designation, Converter={StaticResource NullToVis}}"
+                                                       Style="{DynamicResource SearchItemSecondaryText}" />
+                                            <TextBlock FontSize="11" Style="{DynamicResource SearchItemSecondaryText}">
+                                                <Run Text="Состояние: " />
+                                                <Run Text="{Binding CurrentState, Converter={StaticResource StateText}}" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
