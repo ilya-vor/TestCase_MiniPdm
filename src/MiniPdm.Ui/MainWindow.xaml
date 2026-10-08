@@ -290,7 +290,7 @@
                                             <ui:SymbolIcon Symbol="Checkmark24" />
                                         </ui:Button.Icon>
                                     </ui:Button>
-                                    <ui:Button Content="Аннулировать" Appearance="Danger"
+                                    <ui:Button Content="Аннулировать" Appearance="Danger" Foreground="White"
                                                Command="{Binding CancelStateCommand}">
                                         <ui:Button.Icon>
                                             <ui:SymbolIcon Symbol="Dismiss24" />
