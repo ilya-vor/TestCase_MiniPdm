@@ -267,16 +267,10 @@
                                             <ui:SymbolIcon Symbol="Dismiss24" />
                                         </ui:Button.Icon>
                                     </ui:Button>
-                                    <ui:Button Content="Рассчитать массу" Margin="24,0,8,0"
+                                    <ui:Button Content="Рассчитать массу" Margin="24,0,0,0"
                                                Command="{Binding CalculateMassCommand}">
                                         <ui:Button.Icon>
                                             <ui:SymbolIcon Symbol="Calculator24" />
-                                        </ui:Button.Icon>
-                                    </ui:Button>
-                                    <ui:Button Content="Сводная спецификация"
-                                               Command="{Binding SpecificationCommand}">
-                                        <ui:Button.Icon>
-                                            <ui:SymbolIcon Symbol="DocumentTable24" />
                                         </ui:Button.Icon>
                                     </ui:Button>
                                 </StackPanel>
@@ -306,13 +300,7 @@
                 <TabItem Header="Сводная спецификация">
                     <DockPanel Margin="4,8,4,4">
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
-                            <ui:Button Content="Построить для выбранного объекта"
-                                       Command="{Binding SpecificationCommand}">
-                                <ui:Button.Icon>
-                                    <ui:SymbolIcon Symbol="DocumentBulletList24" />
-                                </ui:Button.Icon>
-                            </ui:Button>
-                            <ui:Button Content="Экспорт в CSV…" Margin="8,0,0,0"
+                            <ui:Button Content="Экспорт в CSV…"
                                        Command="{Binding ExportSpecificationCommand}">
                                 <ui:Button.Icon>
                                     <ui:SymbolIcon Symbol="Save24" />

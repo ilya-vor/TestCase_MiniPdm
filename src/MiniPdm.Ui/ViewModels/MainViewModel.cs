@@ -40,7 +40,6 @@ public sealed class MainViewModel : ObservableObject
             () => ChangeStateAsync(ObjectState.Cancelled),
             () => Details?.CurrentVersion is not null && Details.CurrentVersion.State != ObjectState.Cancelled);
         CalculateMassCommand = new AsyncRelayCommand(CalculateMassAsync, () => Details is not null);
-        SpecificationCommand = new AsyncRelayCommand(BuildSpecificationAsync, () => Details is not null);
         ExportSpecificationCommand = new AsyncRelayCommand(ExportSpecificationAsync, () => SpecificationRows.Count > 0);
         ImportCommand = new AsyncRelayCommand(ImportAsync, () => !IsImporting);
         CancelImportCommand = new RelayCommand(() => _importCts?.Cancel(), () => IsImporting);
@@ -64,8 +63,6 @@ public sealed class MainViewModel : ObservableObject
     public ICommand CancelStateCommand { get; }
 
     public ICommand CalculateMassCommand { get; }
-
-    public ICommand SpecificationCommand { get; }
 
     public ICommand ExportSpecificationCommand { get; }
 
@@ -263,26 +260,9 @@ public sealed class MainViewModel : ObservableObject
         }
     }
 
-    private async Task BuildSpecificationAsync()
-    {
-        if (Details is null)
-        {
-            return;
-        }
-
-        try
-        {
-            StatusText = await FillSpecificationAsync().ConfigureAwait(true);
-        }
-        catch (Exception ex)
-        {
-            StatusText = "Ошибка построения спецификации: " + ex.Message;
-        }
-    }
-
     /// <summary>
     /// Строит сводную спецификацию для выбранного объекта, заполняет коллекцию и возвращает
-    /// текст статуса. Используется и командой, и авто-построением при выборе объекта.
+    /// текст статуса. Вызывается автоматически при выборе объекта.
     /// </summary>
     private async Task<string> FillSpecificationAsync()
     {
