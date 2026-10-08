@@ -139,7 +139,8 @@
                                         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
                                                    Visibility="{Binding Designation, Converter={StaticResource NullToVis}}"
                                                    Style="{DynamicResource SearchItemSecondaryText}" />
-                                        <TextBlock FontSize="11" Style="{DynamicResource SearchItemSecondaryText}">
+                                        <TextBlock FontSize="11" Style="{DynamicResource SearchItemSecondaryText}"
+                                                   Visibility="{Binding CurrentState, Converter={StaticResource NullToVis}, FallbackValue=Collapsed}">
                                             <Run Text="Состояние: " />
                                             <Run Text="{Binding CurrentState, Converter={StaticResource StateText}}" />
                                         </TextBlock>
