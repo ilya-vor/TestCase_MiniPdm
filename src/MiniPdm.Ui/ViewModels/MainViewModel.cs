@@ -249,7 +249,7 @@ public sealed class MainViewModel : ObservableObject
             MassText = result.HasCycle
                 ? "В составе обнаружен цикл — масса не определена."
                 : result.TotalKg is not null
-                    ? $"Масса изделия: {result.TotalKg.Value:0.###} кг"
+                    ? $"Масса изделия: {result.TotalKg.Value:0.######} кг"
                     : "Масса не определена. Не указана масса у: " + string.Join(
                         "; ",
                         result.Missing.Select(m => m.Designation is null ? m.Name : $"{m.Designation} {m.Name}"));
