@@ -290,8 +290,18 @@
                                             <ui:SymbolIcon Symbol="Checkmark24" />
                                         </ui:Button.Icon>
                                     </ui:Button>
-                                    <ui:Button Content="Аннулировать" Appearance="Danger" Foreground="White"
+                                    <ui:Button Content="Аннулировать" Appearance="Danger"
                                                Command="{Binding CancelStateCommand}">
+                                        <!-- Текст как на «Утвердить» (Primary): белый цвет акцента.
+                                             Задан сеттерами стиля (не локально), чтобы hover/pressed/disabled
+                                             отрабатывали штатными триггерами WPF-UI. -->
+                                        <ui:Button.Style>
+                                            <Style TargetType="{x:Type ui:Button}"
+                                                   BasedOn="{StaticResource DefaultUiButtonStyle}">
+                                                <Setter Property="Foreground" Value="{DynamicResource AccentButtonForeground}" />
+                                                <Setter Property="PressedForeground" Value="{DynamicResource AccentButtonForegroundPointerOver}" />
+                                            </Style>
+                                        </ui:Button.Style>
                                         <ui:Button.Icon>
                                             <ui:SymbolIcon Symbol="Dismiss24" />
                                         </ui:Button.Icon>
