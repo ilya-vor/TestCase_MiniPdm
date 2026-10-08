@@ -39,7 +39,7 @@ public sealed class MainViewModel : ObservableObject
         CancelStateCommand = new AsyncRelayCommand(
             () => ChangeStateAsync(ObjectState.Cancelled),
             () => Details?.CurrentVersion is not null && Details.CurrentVersion.State != ObjectState.Cancelled);
-        CalculateMassCommand = new AsyncRelayCommand(CalculateMassAsync, () => Details is not null);
+        CalculateMassCommand = new AsyncRelayCommand(CalculateMassAsync, () => Details?.CurrentVersion is not null);
         ExportSpecificationCommand = new AsyncRelayCommand(ExportSpecificationAsync, () => SpecificationRows.Count > 0);
         ImportCommand = new AsyncRelayCommand(ImportAsync, () => !IsImporting);
         CancelImportCommand = new RelayCommand(() => _importCts?.Cancel(), () => IsImporting);
