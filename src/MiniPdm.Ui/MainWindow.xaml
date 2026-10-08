@@ -70,8 +70,9 @@
 
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
+                    <!-- Результаты поиска и состав делят левую панель пополам: дерево не растёт выше половины грида. -->
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <ui:Card Grid.Row="0" Margin="12,0,0,6" Padding="10" VerticalAlignment="Top">
