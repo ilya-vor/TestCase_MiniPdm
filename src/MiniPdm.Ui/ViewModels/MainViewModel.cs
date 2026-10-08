@@ -169,6 +169,45 @@ public sealed class MainViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// Перечитывает список результатов поиска (например, после смены состояния) и восстанавливает
+    /// выделение на объекте с указанным идентификатором, не перезапуская загрузку карточки.
+    /// </summary>
+    private async Task RefreshSearchResultsAsync(Guid preserveId)
+    {
+        try
+        {
+            var results = await _service.SearchAsync(SearchText, CancellationToken.None).ConfigureAwait(true);
+            SearchResults.Clear();
+            foreach (var item in results)
+            {
+                SearchResults.Add(item);
+            }
+
+            // Восстанавливаем выделение, присваивая поле напрямую: обычный сеттер запустил бы
+            // повторную загрузку карточки и перестроение дерева.
+            PdmObjectSummary? match = null;
+            foreach (var item in results)
+            {
+                if (item.Id == preserveId)
+                {
+                    match = item;
+                    break;
+                }
+            }
+
+            if (match is not null)
+            {
+                _selectedSearchResult = match;
+                OnPropertyChanged(nameof(SelectedSearchResult));
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusText = "Ошибка обновления списка: " + ex.Message;
+        }
+    }
+
     private async Task SelectObjectAsync(PdmObjectSummary summary, bool rebuildTree)
     {
         try
@@ -228,6 +267,8 @@ public sealed class MainViewModel : ObservableObject
         {
             await _service.ChangeStateAsync(Details.CurrentVersion.Id, target, CancellationToken.None).ConfigureAwait(true);
             await SelectObjectAsync(objectSummary, rebuildTree: false).ConfigureAwait(true);
+            // Обновляем список поиска, чтобы новое состояние (или его отсутствие) отобразилось сразу.
+            await RefreshSearchResultsAsync(objectSummary.Id).ConfigureAwait(true);
             StatusText = "Состояние изменено.";
         }
         catch (Exception ex)
