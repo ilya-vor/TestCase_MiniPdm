@@ -276,9 +276,9 @@
                                         <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Details.CurrentVersion.Material}" Margin="0,3"
                                                    Visibility="{Binding Details.CurrentVersion.Material, Converter={StaticResource NullToVis}}" />
 
-                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Масса за единицу, кг:" FontWeight="SemiBold" Margin="0,3,12,3"
+                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Масса&#10;за единицу, кг:" FontWeight="SemiBold" Margin="0,3,12,3"
                                                    Visibility="{Binding Details.CurrentVersion.MassKg, Converter={StaticResource NullToVis}}" />
-                                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Details.CurrentVersion.MassKg}" Margin="0,3"
+                                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Details.CurrentVersion.MassKg}" Margin="0,22,0,3"
                                                    Visibility="{Binding Details.CurrentVersion.MassKg, Converter={StaticResource NullToVis}}" />
                                     </Grid>
                                 </Border>
