@@ -30,23 +30,42 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
+                    <!-- TextBox растягивается -->
                     <ColumnDefinition Width="Auto" />
+                    <!-- Найти -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- Импорт справа -->
                 </Grid.ColumnDefinitions>
 
-                <ui:TextBox Grid.Column="0" MinWidth="320" MaxWidth="520" HorizontalAlignment="Left"
-                            PlaceholderText="Поиск по обозначению или наименованию"
-                            Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
+                <!-- Поле поиска — растягивается -->
+                <ui:TextBox Grid.Column="0"
+                MinWidth="310"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                PlaceholderText="Поиск по обозначению или наименованию"
+                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
                     <ui:TextBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding SearchCommand}" />
                     </ui:TextBox.InputBindings>
                 </ui:TextBox>
 
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <ui:Button Content="Найти" Appearance="Primary" Margin="8,0,0,0" Command="{Binding SearchCommand}">
-                        <ui:Button.Icon>
-                            <ui:SymbolIcon Symbol="Search24" />
-                        </ui:Button.Icon>
-                    </ui:Button>
+                <!-- Кнопка "Найти" сразу после поля -->
+                <ui:Button Grid.Column="1"
+               Content="Найти"
+               Appearance="Primary"
+               Margin="8,0,0,0"
+               VerticalAlignment="Center"
+               Command="{Binding SearchCommand}">
+                    <ui:Button.Icon>
+                        <ui:SymbolIcon Symbol="Search24" />
+                    </ui:Button.Icon>
+                </ui:Button>
+
+                <!-- Кнопки импорта — прижаты к правому краю -->
+                <StackPanel Grid.Column="2"
+                Orientation="Horizontal"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center">
                     <ui:Button Content="Импорт папки" Margin="8,0,0,0" Command="{Binding ImportCommand}">
                         <ui:Button.Icon>
                             <ui:SymbolIcon Symbol="FolderOpen24" />
@@ -213,10 +232,10 @@
                         <ScrollViewer VerticalScrollBarVisibility="Auto"
                                       Visibility="{Binding Details, Converter={StaticResource NullToVis}}">
                             <StackPanel>
-                                <ui:TextBlock Text="{Binding Details.Object.Name}" FontTypography="Title" />
+                                <ui:TextBlock Text="{Binding Details.Object.Name}"  Margin="12,2,0,0" FontTypography="Title" />
                                 <TextBlock Text="{Binding Details.Object.Designation}"
                                            Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
-                                           Margin="0,2,0,0" />
+                                           Margin="12,2,0,0" />
 
                                 <Border Margin="0,12,0,0" Padding="14" CornerRadius="8"
                                         Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -235,22 +254,32 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип:" FontWeight="SemiBold" Margin="0,3,12,3" />
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип:" FontWeight="SemiBold" Margin="0,3,12,3"
+                                                   Visibility="{Binding Details.Object.Type, Converter={StaticResource NullToVis}}" />
                                         <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,3"
+                                                   Visibility="{Binding Details.Object.Type, Converter={StaticResource NullToVis}}"
                                                    Text="{Binding Details.Object.Type, Converter={StaticResource TypeText}}" />
 
-                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Текущая версия:" FontWeight="SemiBold" Margin="0,3,12,3" />
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Details.CurrentVersion.VersionNo}" Margin="0,3" />
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Текущая версия:" FontWeight="SemiBold" Margin="0,3,12,3"
+                                                   Visibility="{Binding Details.CurrentVersion.VersionNo, Converter={StaticResource NullToVis}}" />
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Details.CurrentVersion.VersionNo}" Margin="0,3"
+                                                   Visibility="{Binding Details.CurrentVersion.VersionNo, Converter={StaticResource NullToVis}}" />
 
-                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Состояние:" FontWeight="SemiBold" Margin="0,3,12,3" />
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Состояние:" FontWeight="SemiBold" Margin="0,3,12,3"
+                                                   Visibility="{Binding Details.CurrentVersion.State, Converter={StaticResource NullToVis}}" />
                                         <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,3"
+                                                   Visibility="{Binding Details.CurrentVersion.State, Converter={StaticResource NullToVis}}"
                                                    Text="{Binding Details.CurrentVersion.State, Converter={StaticResource StateText}}" />
 
-                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Материал:" FontWeight="SemiBold" Margin="0,3,12,3" />
-                                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Details.CurrentVersion.Material}" Margin="0,3" />
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Материал:" FontWeight="SemiBold" Margin="0,3,12,3"
+                                                   Visibility="{Binding Details.CurrentVersion.Material, Converter={StaticResource NullToVis}}" />
+                                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Details.CurrentVersion.Material}" Margin="0,3"
+                                                   Visibility="{Binding Details.CurrentVersion.Material, Converter={StaticResource NullToVis}}" />
 
-                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Масса за единицу, кг:" FontWeight="SemiBold" Margin="0,3,12,3" />
-                                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Details.CurrentVersion.MassKg}" Margin="0,3" />
+                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Масса за единицу, кг:" FontWeight="SemiBold" Margin="0,3,12,3"
+                                                   Visibility="{Binding Details.CurrentVersion.MassKg, Converter={StaticResource NullToVis}}" />
+                                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Details.CurrentVersion.MassKg}" Margin="0,3"
+                                                   Visibility="{Binding Details.CurrentVersion.MassKg, Converter={StaticResource NullToVis}}" />
                                     </Grid>
                                 </Border>
 
