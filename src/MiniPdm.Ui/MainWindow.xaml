@@ -330,21 +330,19 @@
                                             <ui:SymbolIcon Symbol="Dismiss24" />
                                         </ui:Button.Icon>
                                     </ui:Button>
-                                    <ui:Button Content="Рассчитать массу" Margin="24,0,0,0"
+                                    <ui:Button Content="Рассчитать массу" Margin="36,0,0,0"
                                                Command="{Binding CalculateMassCommand}">
                                         <ui:Button.Icon>
                                             <ui:SymbolIcon Symbol="Calculator24" />
                                         </ui:Button.Icon>
                                     </ui:Button>
+                                    <TextBlock Text="{Binding MassText}" Margin="8,0,0,0" TextWrapping="Wrap"
+                                           FontWeight="SemiBold" VerticalAlignment="Center"/>
                                 </StackPanel>
 
-                                <TextBlock Text="{Binding MassText}" Margin="0,12,0,0" TextWrapping="Wrap"
-                                           FontWeight="SemiBold" />
-
-                                <ui:TextBlock Text="Версии" FontTypography="BodyStrong" Margin="0,18,0,6" />
                                 <ui:DataGrid ItemsSource="{Binding Versions}" AutoGenerateColumns="False"
                                              IsReadOnly="True" CanUserAddRows="False" HeadersVisibility="Column"
-                                             MaxHeight="240" HorizontalAlignment="Stretch">
+                                             MaxHeight="240" HorizontalAlignment="Stretch" Margin="0,36,0,0">
                                     <ui:DataGrid.Columns>
                                         <DataGridTextColumn Header="Версия" Binding="{Binding VersionNo}" MinWidth="150"/>
                                         <DataGridTextColumn Header="Состояние" MinWidth="150"
