@@ -16,6 +16,7 @@
             <conv:BoolToVisibilityConverter x:Key="BoolToVis" />
             <conv:NullToVisibilityConverter x:Key="NullToVis" />
             <conv:HalfValueConverter x:Key="Half" />
+            <conv:FirstNotNullConverter x:Key="FirstNotNull" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -96,3 +96,33 @@ public sealed class NullToVisibilityConverter : IValueConverter
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         => throw new NotSupportedException();
 }
+
+/// <summary>Первое непустое значение из списка (например, обозначение, иначе — наименование).</summary>
+public sealed class FirstNotNullConverter : IMultiValueConverter
+{
+    public object Convert(object?[] values, Type targetType, object? parameter, CultureInfo culture)
+    {
+        foreach (var value in values)
+        {
+            if (value is string text)
+            {
+                if (!string.IsNullOrWhiteSpace(text))
+                {
+                    return text;
+                }
+
+                continue;
+            }
+
+            if (value is not null)
+            {
+                return value;
+            }
+        }
+
+        return string.Empty;
+    }
+
+    public object[] ConvertBack(object? value, Type[] targetTypes, object? parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}

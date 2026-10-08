@@ -108,10 +108,17 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="0,1">
-                                        <TextBlock Text="{Binding Designation}" FontWeight="SemiBold"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   Visibility="{Binding Designation, Converter={StaticResource NullToVis}}" />
+                                        <!-- Заголовок: обозначение, а если его нет — наименование. -->
+                                        <TextBlock FontWeight="SemiBold" TextTrimming="CharacterEllipsis">
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource FirstNotNull}">
+                                                    <Binding Path="Designation" />
+                                                    <Binding Path="Name" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
                                         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+                                                   Visibility="{Binding Designation, Converter={StaticResource NullToVis}}"
                                                    Style="{DynamicResource SearchItemSecondaryText}" />
                                         <TextBlock FontSize="11" Style="{DynamicResource SearchItemSecondaryText}">
                                             <Run Text="Состояние: " />
