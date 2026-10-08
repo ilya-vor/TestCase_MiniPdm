@@ -23,6 +23,7 @@ public sealed class DesignationTests
     [InlineData("рдцл.304112.601")]   // строчные буквы
     [InlineData("РДЦЛ304112601")]     // нет точек
     [InlineData("АБВГ.30124X.001")]   // не цифра
+    [InlineData("АБВГ.٣٠١٢٤٥.٠٠١")]   // арабо-индийские цифры (Unicode, не ASCII)
     [InlineData("")]
     [InlineData(null)]
     public void Invalid_designations_are_rejected(string? value)

@@ -11,7 +11,7 @@ public sealed class Designation : IEquatable<Designation>
 {
     // Кириллица только заглавная (включая Ё), латиница не допускается.
     private static readonly Regex Format = new(
-        @"^[А-ЯЁ]{4}\.\d{6}\.\d{3}$",
+        @"^[А-ЯЁ]{4}\.[0-9]{6}\.[0-9]{3}$",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
     private Designation(string value) => Value = value;

@@ -203,9 +203,18 @@ public sealed class PdmQueryRepository : IPdmQueryRepository
         }
 
         var components = new Dictionary<Guid, List<StructureComponent>>();
+        var seenEdges = new HashSet<(Guid Parent, Guid Child)>();
         foreach (var row in rows.Where(r => r.ParentVersionId is not null && r.Quantity is not null))
         {
             if (!versionToObject.TryGetValue(row.ParentVersionId!.Value, out var parentObjectId))
+            {
+                continue;
+            }
+
+            // Один и тот же подузел может быть достигнут из корня несколькими путями (DAG):
+            // CTE выдаёт его связи повторно. Дедуплицируем по паре «родитель→потомок», иначе
+            // масса и количества были бы завышены.
+            if (!seenEdges.Add((parentObjectId, row.ObjectId)))
             {
                 continue;
             }

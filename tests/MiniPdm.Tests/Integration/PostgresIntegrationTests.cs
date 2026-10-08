@@ -135,6 +135,118 @@ public sealed class PostgresIntegrationTests
         Assert.Null(after!.CurrentVersion);
     }
 
+    [Fact]
+    public async Task Shared_subassembly_edges_are_not_duplicated_in_structure()
+    {
+        if (!_fixture.Available)
+        {
+            return;
+        }
+
+        var ctx = await CreateContextAsync();
+
+        var root = Guid.NewGuid();
+        var subA = Guid.NewGuid();
+        var subB = Guid.NewGuid();
+        var shared = Guid.NewGuid();
+        var leaf = Guid.NewGuid();
+        var rootV = Guid.NewGuid();
+        var subAV = Guid.NewGuid();
+        var subBV = Guid.NewGuid();
+        var sharedV = Guid.NewGuid();
+        var leafV = Guid.NewGuid();
+        var now = DateTimeOffset.UtcNow;
+
+        await using (var connection = await ctx.Factory.OpenAsync(CancellationToken.None))
+        {
+            // Объекты заводятся с current_version_id = NULL, затем проставляется текущая версия:
+            // FK на версию неотложный, поэтому порядок важен (как в PostgresImportStore).
+            await connection.ExecuteAsync("""
+                INSERT INTO pdm_object (id, object_type, designation, name, current_version_id) VALUES
+                    (@Root, 'Assembly', 'РДЦЛ.304112.001', 'Корень', NULL),
+                    (@SubA, 'Assembly', 'РДЦЛ.304112.002', 'Подузел A', NULL),
+                    (@SubB, 'Assembly', 'РДЦЛ.304112.003', 'Подузел B', NULL),
+                    (@Shared, 'Assembly', 'РДЦЛ.304112.004', 'Общий подузел', NULL),
+                    (@Leaf, 'Part', 'РДЦЛ.304112.005', 'Деталь', NULL);
+                """, new { Root = root, SubA = subA, SubB = subB, Shared = shared, Leaf = leaf });
+
+            await connection.ExecuteAsync("""
+                INSERT INTO object_version (id, object_id, version_no, state, material, mass_kg, created_at) VALUES
+                    (@RootV, @Root, 1, 'InWork', NULL, NULL, @Now),
+                    (@SubAV, @SubA, 1, 'InWork', NULL, NULL, @Now),
+                    (@SubBV, @SubB, 1, 'InWork', NULL, NULL, @Now),
+                    (@SharedV, @Shared, 1, 'InWork', NULL, NULL, @Now),
+                    (@LeafV, @Leaf, 1, 'InWork', 'Сталь', 2, @Now);
+                """, new
+            {
+                RootV = rootV,
+                SubAV = subAV,
+                SubBV = subBV,
+                SharedV = sharedV,
+                LeafV = leafV,
+                Root = root,
+                SubA = subA,
+                SubB = subB,
+                Shared = shared,
+                Leaf = leaf,
+                Now = now,
+            });
+
+            await connection.ExecuteAsync("""
+                UPDATE pdm_object SET current_version_id = CASE id
+                    WHEN @Root THEN @RootV
+                    WHEN @SubA THEN @SubAV
+                    WHEN @SubB THEN @SubBV
+                    WHEN @Shared THEN @SharedV
+                    WHEN @Leaf THEN @LeafV END
+                WHERE id IN (@Root, @SubA, @SubB, @Shared, @Leaf);
+                """, new
+            {
+                Root = root,
+                SubA = subA,
+                SubB = subB,
+                Shared = shared,
+                Leaf = leaf,
+                RootV = rootV,
+                SubAV = subAV,
+                SubBV = subBV,
+                SharedV = sharedV,
+                LeafV = leafV,
+            });
+
+            await connection.ExecuteAsync("""
+                INSERT INTO bom_link (id, parent_version_id, child_object_id, quantity) VALUES
+                    (gen_random_uuid(), @RootV, @SubA, 1),
+                    (gen_random_uuid(), @RootV, @SubB, 1),
+                    (gen_random_uuid(), @SubAV, @Shared, 1),
+                    (gen_random_uuid(), @SubBV, @Shared, 1),
+                    (gen_random_uuid(), @SharedV, @Leaf, 3);
+                """, new
+            {
+                RootV = rootV,
+                SubAV = subAV,
+                SubBV = subBV,
+                SharedV = sharedV,
+                SubA = subA,
+                SubB = subB,
+                Shared = shared,
+                Leaf = leaf,
+            });
+        }
+
+        var structure = await ctx.Query.GetStructureAsync(root, CancellationToken.None);
+        Assert.NotNull(structure);
+
+        // Общий подузел достижим двумя путями; его связь с деталью должна быть одна (иначе задвоение).
+        var component = Assert.Single(structure!.GetComponents(shared));
+        Assert.Equal(leaf, component.ChildObjectId);
+        Assert.Equal(3, component.Quantity);
+
+        // Масса корня = 2 кг × 3 шт × 2 пути = 12 кг (а не 24 при задвоении рёбер).
+        var mass = ctx.Mass.Calculate(structure);
+        Assert.Equal(12m, mass.TotalKg);
+    }
+
     private async Task<TestContext> CreateContextAsync()
     {
         var factory = new NpgsqlConnectionFactory(_fixture.ConnectionString);
